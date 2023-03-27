@@ -1,0 +1,9 @@
+# Reusable workflow for PRs; to eject, you can replace this file with
+# https://github.com/ryansonshine/ryansonshine/blob/main/.github/workflows/pr.yml
+name: Pull Request
+
+on: [pull_request]
+
+jobs:
+  build:
+    uses: ryansonshine/ryansonshine/.github/workflows/pr.yml@main
