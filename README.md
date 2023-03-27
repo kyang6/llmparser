@@ -1,59 +1,4 @@
-# typescript-npm-package-template
-
-> Template to kickstart creating a Node.js module using TypeScript and VSCode
-
-Inspired by [node-module-boilerplate](https://github.com/sindresorhus/node-module-boilerplate)
-
-## Features
-
-- [Semantic Release](https://github.com/semantic-release/semantic-release)
-- [Issue Templates](https://github.com/ryansonshine/typescript-npm-package-template/tree/main/.github/ISSUE_TEMPLATE)
-- [GitHub Actions](https://github.com/ryansonshine/typescript-npm-package-template/tree/main/.github/workflows)
-- [Codecov](https://about.codecov.io/)
-- [VSCode Launch Configurations](https://github.com/ryansonshine/typescript-npm-package-template/blob/main/.vscode/launch.json)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Husky](https://github.com/typicode/husky)
-- [Lint Staged](https://github.com/okonet/lint-staged)
-- [Commitizen](https://github.com/search?q=commitizen)
-- [Jest](https://jestjs.io/)
-- [ESLint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
-
-## Getting started
-
-### Set up your repository
-
-**Click the "Use this template" button.**
-
-Alternatively, create a new directory and then run:
-
-```bash
-curl -fsSL https://github.com/ryansonshine/typescript-npm-package-template/archive/main.tar.gz | tar -xz --strip-components=1
-```
-
-Replace `FULL_NAME`, `GITHUB_USER`, and `REPO_NAME` in the script below with your own details to personalize your new package:
-
-```bash
-FULL_NAME="John Smith"
-GITHUB_USER="johnsmith"
-REPO_NAME="my-cool-package"
-sed -i.mybak "s/\([\/\"]\)(ryansonshine)/$GITHUB_USER/g; s/typescript-npm-package-template\|my-package-name/$REPO_NAME/g; s/Kevin Yang/$FULL_NAME/g" package.json package-lock.json README.md
-rm *.mybak
-```
-
-### Add NPM Token
-
-Add your npm token to your GitHub repository secrets as `NPM_TOKEN`.
-
-### Add Codecov integration
-
-Enable the Codecov GitHub App [here](https://github.com/apps/codecov).
-
-**Remove everything from here and above**
-
----
-
-# my-package-name
+# llmparser
 
 [![npm package][npm-img]][npm-url]
 [![Build Status][build-img]][build-url]
@@ -63,43 +8,89 @@ Enable the Codecov GitHub App [here](https://github.com/apps/codecov).
 [![Commitizen Friendly][commitizen-img]][commitizen-url]
 [![Semantic Release][semantic-release-img]][semantic-release-url]
 
-> My awesome module
+> Classify and extract structured data from anywhere
 
 ## Install
 
 ```bash
-npm install my-package-name
+npm install llmparser
 ```
 
-## Usage
+## Quick Usage
 
 ```ts
-import { myPackage } from 'my-package-name';
+import { LLMParser, PDFLoader } from llmparser;
 
-myPackage('hello');
-//=> 'hello from my package'
+const categories = [
+  {
+    name: "MSA",
+    description: "Legal MSA document", // instruction for LLM
+    fields: [
+      {
+        name: "counterparty",
+        description: "counterparty of the MSA agreement",
+        type: "string"
+      }
+    ]
+  },
+  {
+    name: "NDA",
+    description: "Non disclosure agreement",
+    fields: [
+      {
+        name: "counterparty",
+        description: "who we are signing the NDA with",
+        type: "string"
+      },
+      {
+        name: "mutual",
+        description: "is this a mutual NDA",
+        type: "boolean"
+      }
+    ]
+  }
+]
+
+const parser = new LLMParser({
+  categories,
+  apiKey: process.env.OPENAI_API_KEY,
+  model: "gpt-3.5-turbo", // or gpt-4
+})
+
+/* if you don't want to categorize and only extract fields
+const parser = new LLMParser({
+  fields,
+  apiKey: process.env.OPENAI_API_KEY
+})
+*/
+
+
+const loader = new PDFLoader(); // instantiate class because it can inherit
+const document = await loader.load("src/examples/nda.pdf"); // or blob
+
+// document is just a plain text blob
+const results = await parser.parse(document);
+// if document > context length than we split into chunks and iterate
+
+console.log(results);
+{
+  type: "NDA",
+  confidence: 0.90,
+  source: "Non disclosure agreement",
+  fields: {
+    counterparty: {
+      value: "Series Financial",
+      source: "... Series Financial ...",
+      confidence: 0.92
+    },
+    mutual: {
+      value: true,
+      source: "Mutual NDA",
+      confidence: 0.84
+    }
+  }
+}
 ```
-
-## API
-
-### myPackage(input, options?)
-
-#### input
-
-Type: `string`
-
-Lorem ipsum.
-
-#### options
-
-Type: `object`
-
-##### postfix
-
-Type: `string`
-Default: `rainbows`
-
-Lorem ipsum.
 
 [build-img]:https://github.com/ryansonshine/typescript-npm-package-template/actions/workflows/release.yml/badge.svg
 [build-url]:https://github.com/ryansonshine/typescript-npm-package-template/actions/workflows/release.yml
