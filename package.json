@@ -116,5 +116,8 @@
       "@semantic-release/npm",
       "@semantic-release/github"
     ]
+  },
+  "dependencies": {
+    "openai": "^3.2.1"
   }
 }
