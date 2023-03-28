@@ -50,15 +50,18 @@ export class SimpleClassifier {
 
     const classificationResultString = await this.llm.call(prompt);
 
-    const classificationResult = smartParseDirtyJSON(
-      classificationResultString
-    );
+    let classificationResult;
+    try {
+      classificationResult = smartParseDirtyJSON(classificationResultString);
+    } catch (e) {
+      throw new Error('Error parsing document classification.');
+    }
     const validClassification = validateClassificationJSON(
       classificationResult,
       categories
     );
     if (!validClassification) {
-      throw new Error('Error classifying document.');
+      throw new Error('Invalid classification JSON.');
     }
 
     return classificationResult as ClassificationResult;

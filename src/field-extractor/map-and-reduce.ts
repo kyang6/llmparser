@@ -226,7 +226,7 @@ export class MapAndReduceExtractor {
 
     const validExtraction = validateExtractedFields(mergedFields, fields);
     if (!validExtraction) {
-      throw new Error('Invalid extraction');
+      throw new Error('Invalid extraction.');
     }
 
     return mergedFields;
