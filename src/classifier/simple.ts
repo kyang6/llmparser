@@ -7,6 +7,8 @@ import {
   SIMPLE_CLASSIFICATION_PROMPT_CHAT,
 } from '../prompts';
 
+import { smartParseDirtyJSON } from '../utils/json-validator';
+
 import { DOCUMENT_CLASSIFICATION_LENGTH } from './hyperparameters';
 
 export class SimpleClassifier {
@@ -20,47 +22,36 @@ export class SimpleClassifier {
     // remove fields from categories
     return categories
       .map((category: Category) => {
-        return category.name + ': ' + category.description;
+        return category.name + ' (' + category.description + ')';
       })
-      .join(' ');
+      .join('/n');
   }
 
   async classify(
     document: string,
     categories: Category[]
   ): Promise<ClassificationResult> {
-    let classificationResultString: string;
+    const truncatedDocument = document.slice(0, DOCUMENT_CLASSIFICATION_LENGTH);
+    const stringCategories = this._processCategories(categories);
 
+    let prompt;
     if (this.llm.modelName === LLMModels.GPT_3_5_Turbo) {
-      const truncatedDocument = document.slice(
-        0,
-        DOCUMENT_CLASSIFICATION_LENGTH
-      );
-      const stringCategories = this._processCategories(categories);
-      const prompt = SIMPLE_CLASSIFICATION_PROMPT_CHAT.render({
+      prompt = SIMPLE_CLASSIFICATION_PROMPT_CHAT.render({
         document: truncatedDocument,
         stringCategories,
       });
-
-      classificationResultString = await this.llm.call(prompt);
     } else {
-      const truncatedDocument = document.slice(
-        0,
-        DOCUMENT_CLASSIFICATION_LENGTH
-      );
-      const stringCategories = this._processCategories(categories);
-      const prompt = SIMPLE_CLASSIFICATION_PROMPT.render({
+      prompt = SIMPLE_CLASSIFICATION_PROMPT.render({
         document: truncatedDocument,
         stringCategories,
       });
-
-      classificationResultString = await this.llm.call(prompt);
     }
 
-    console.log(classificationResultString);
+    const classificationResultString = await this.llm.call(prompt);
 
-    console.log('just console logged');
-    const classificationResult = JSON.parse(classificationResultString);
+    const classificationResult = smartParseDirtyJSON(
+      classificationResultString
+    );
     return classificationResult as ClassificationResult;
   }
 }
