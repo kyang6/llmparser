@@ -1,13 +1,13 @@
 import { LLM } from '../../../llms';
-import { Field } from '../../../parser';
+import { Field } from '../../../llmparser';
 import { FieldsResultObject, PossibleFieldValues } from '../../types';
 import {
   crudeTokenizer,
   tokenLengthToCharLength,
 } from '../../../utils/tokenizer';
-import { validateExtractedFields } from '../../extraction-validator';
+import { validateExtractedFields } from '../../extraction_validator';
 
-import { ChatTemplate, Template } from '../../../utils/prompt-template';
+import { ChatTemplate, TextTemplate } from '../../../utils/prompt_templates';
 
 import {
   CHUNK_BUFFER_IN_TOKENS,
@@ -15,8 +15,8 @@ import {
 } from './hyperparameters';
 import { smartParseDirtyJSON } from '../../../utils/validators';
 
-import { promiseAllRateLimited } from '../../../utils/rate-limit';
-import { FieldExtractorBase } from '../../field-extractor-base';
+import { promiseAllRateLimited } from '../../../utils/rate_limit';
+import { FieldExtractorBase } from '../../base';
 
 import {
   SIMPLE_EXTRACTION_PROMPT,
@@ -65,7 +65,7 @@ export class MapReduceExtractor extends FieldExtractorBase {
   _extractFieldsForChunk(
     chunk: string,
     stringFields: string,
-    promptTemplate: Template | ChatTemplate
+    promptTemplate: TextTemplate | ChatTemplate
   ): Promise<FieldsResultObject> {
     return new Promise((resolve, reject) => {
       const prompt = promptTemplate.render({
@@ -190,7 +190,7 @@ export class MapReduceExtractor extends FieldExtractorBase {
   ): Promise<FieldsResultObject> {
     const stringFields = this._processFields(fields);
 
-    let promptTemplate: Template | ChatTemplate;
+    let promptTemplate: TextTemplate | ChatTemplate;
     if (this.llm.isChatModel()) {
       promptTemplate = SIMPLE_EXTRACTION_PROMPT_CHAT;
     } else {

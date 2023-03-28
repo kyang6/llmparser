@@ -1,8 +1,7 @@
 import { CONTEXT_SIZES, LLMModels, Message } from '../types';
-import { BaseLLM } from './basellm';
+import { BaseLLM } from './base';
 import { OpenAIApi, Configuration } from 'openai';
 
-// Example implementation of the LLMModel interface for GPT-3.5 Turbo
 export class Gpt3_5Turbo implements BaseLLM {
   private apiKey: string;
   private openai: OpenAIApi;

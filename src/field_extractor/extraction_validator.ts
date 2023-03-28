@@ -1,5 +1,5 @@
 import { FieldsResultObject } from './types';
-import { Field } from '../parser';
+import { Field } from '../llmparser';
 
 export const validateExtractedFields = (
   extractedFields: FieldsResultObject,

@@ -1,1 +1,1 @@
-export { smartParseDirtyJSON } from '../validators/json-validator';
+export { smartParseDirtyJSON } from './json_validator';

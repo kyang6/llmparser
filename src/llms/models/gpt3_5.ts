@@ -1,9 +1,8 @@
-import { BaseLLM } from './basellm';
+import { BaseLLM } from './base';
 
 import { OpenAIApi, Configuration } from 'openai';
 import { CONTEXT_SIZES, LLMModels } from '../types';
 
-// Example implementation of the LLMModel interface for GPT-3
 export class Gpt3_5 implements BaseLLM {
   private apiKey: string;
   private openai: OpenAIApi;

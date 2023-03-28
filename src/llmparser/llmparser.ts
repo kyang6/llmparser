@@ -6,7 +6,7 @@ import {
   SimpleClassifier,
   Classifier,
 } from '../classifier';
-import { Extractor, MapReduceExtractor } from '../field-extractor';
+import { Extractor, MapReduceExtractor } from '../field_extractor';
 
 interface LLMParserOptions {
   apiKey: string;
@@ -20,6 +20,9 @@ interface ParseParams {
   forceClassifyAs?: string;
 }
 
+/*
+ * This is the main class for LLMParser.
+ */
 export class LLMParser {
   private categories?: Category[];
   private fields?: Field[];

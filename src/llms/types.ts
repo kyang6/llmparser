@@ -16,6 +16,7 @@ export const CONTEXT_SIZES: {
   [LLMModels.GPT_4]: 4096,
 };
 
+// for Chat models
 export interface Message {
   role: Role;
   content: string;

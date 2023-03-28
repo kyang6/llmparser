@@ -1,8 +1,8 @@
 import { Message } from '../../llms/types';
 import { crudeTokenizer } from '../tokenizer';
-import { AbstractTemplate } from './abstract-template';
+import { TemplateBase } from './base';
 
-export class ChatTemplate extends AbstractTemplate {
+export class ChatTemplate extends TemplateBase {
   protected template: Message[];
 
   constructor(template: Message[]) {

@@ -1,5 +1,5 @@
 import { ClassificationResult } from '../classifier/types';
-import { FieldsResultObject } from '../field-extractor/types';
+import { FieldsResultObject } from '../field_extractor/types';
 
 export interface Field {
   name: string;

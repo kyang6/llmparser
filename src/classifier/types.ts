@@ -1,4 +1,4 @@
-import { SimpleClassifier } from './classification-techniques/simple/simple';
+import { SimpleClassifier } from './classification_techniques/simple/simple_classifier';
 
 export type ClassificationResult = {
   type: string | null;

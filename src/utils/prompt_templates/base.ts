@@ -1,6 +1,10 @@
 import { Message } from '../../llms/types';
 
-export abstract class AbstractTemplate {
+/*
+ * This is the base class for all templates. It is responsible for defining the interface
+ * that all templates must implement.
+ */
+export abstract class TemplateBase {
   protected abstract template: string | Message[];
   abstract numChars(): number;
   abstract numTokens(): number;

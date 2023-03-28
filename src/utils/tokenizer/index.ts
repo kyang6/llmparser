@@ -2,4 +2,4 @@ export {
   crudeTokenizer,
   charLengthToTokenLength,
   tokenLengthToCharLength,
-} from './crude-tokenizer';
+} from './crude_tokenizer';

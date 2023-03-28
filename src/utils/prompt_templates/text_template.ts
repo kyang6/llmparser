@@ -1,7 +1,7 @@
 import { crudeTokenizer } from '../tokenizer';
-import { AbstractTemplate } from './abstract-template';
+import { TemplateBase } from './base';
 
-export class Template extends AbstractTemplate {
+export class TextTemplate extends TemplateBase {
   protected template: string;
 
   constructor(template: string) {

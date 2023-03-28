@@ -1,4 +1,4 @@
-export { SimpleClassifier } from './classification-techniques/simple/simple';
+export { SimpleClassifier } from './classification_techniques/simple';
 export { Classifier, ClassificationResult } from './types';
-export { validateClassificationJSON } from './classification-validator';
-export { ClassifierBase } from './classifier-base';
+export { validateClassificationJSON } from './classification_validator';
+export { ClassifierBase } from './base';

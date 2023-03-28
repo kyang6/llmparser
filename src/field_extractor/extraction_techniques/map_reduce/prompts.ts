@@ -1,8 +1,7 @@
-import { Template } from '../../../utils/prompt-template/template';
-import { ChatTemplate } from '../../../utils/prompt-template/chat_template';
+import { ChatTemplate, TextTemplate } from '../../../utils/prompt_templates';
 
 export const SIMPLE_EXTRACTION_PROMPT =
-  new Template(`You are a JSON utility built to extract structured information from documents. You can only return JSON. JSON must match the typescript type FieldsResultObject.
+  new TextTemplate(`You are a JSON utility built to extract structured information from documents. You can only return JSON. JSON must match the typescript type FieldsResultObject.
 type FieldResult = {
   value: string | number | boolean | Date | null;
   source: string;

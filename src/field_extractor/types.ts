@@ -1,4 +1,4 @@
-import { MapReduceExtractor } from './extraction-techniques/map-reduce/map-reduce';
+import { MapReduceExtractor } from './extraction_techniques/map_reduce/map_reduce_extractor';
 
 export type PossibleFieldValues = string | number | boolean | Date | null;
 

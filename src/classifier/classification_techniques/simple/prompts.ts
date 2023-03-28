@@ -1,8 +1,7 @@
-import { Template } from '../../../utils/prompt-template/template';
-import { ChatTemplate } from '../../../utils/prompt-template/chat_template';
+import { ChatTemplate, TextTemplate } from '../../../utils/prompt_templates';
 
 export const SIMPLE_CLASSIFICATION_PROMPT =
-  new Template(`You are a JSON utility built to classify documents. You can only return JSON. JSON must match this typescript type
+  new TextTemplate(`You are a JSON utility built to classify documents. You can only return JSON. JSON must match this typescript type
 type ClassificationResult = {
   "type": string | null;
   "confidence": number; // between 0 and 1

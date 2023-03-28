@@ -1,16 +1,16 @@
 import { LLM } from '../../../llms';
-import { Category } from '../../../parser';
+import { Category } from '../../../llmparser';
 import { ClassificationResult } from '../../types';
 
 import { smartParseDirtyJSON } from '../../../utils/validators';
-import { validateClassificationJSON } from '../../classification-validator';
+import { validateClassificationJSON } from '../../classification_validator';
 
 import { DOCUMENT_CLASSIFICATION_LENGTH } from './hyperparameters';
 import {
   SIMPLE_CLASSIFICATION_PROMPT,
   SIMPLE_CLASSIFICATION_PROMPT_CHAT,
 } from './prompts';
-import { ClassifierBase } from '../../classifier-base';
+import { ClassifierBase } from '../../base';
 
 export class SimpleClassifier extends ClassifierBase {
   constructor(llm: LLM) {
