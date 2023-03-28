@@ -1,7 +1,8 @@
 import { LLM, LLMModels } from '../llms';
 import { Field } from '../parser';
-import { FieldsResultObject } from './types';
+import { FieldsResultObject, PossibleFieldValues } from './types';
 import { crudeTokenizer, tokenLengthToCharLength } from '../utils/tokenizer';
+import { validateExtractedFields } from './extraction-validator';
 
 import {
   SIMPLE_EXTRACTION_PROMPT,
@@ -64,7 +65,6 @@ export class MapAndReduceExtractor {
     stringFields: string,
     promptTemplate: Template | ChatTemplate
   ): Promise<FieldsResultObject> {
-    console.log('calling extractFieldsForChunk with chunk: ');
     return new Promise((resolve, reject) => {
       const prompt = promptTemplate.render({
         document: chunk,
@@ -94,7 +94,7 @@ export class MapAndReduceExtractor {
     fields: Field[]
   ): FieldsResultObject {
     const fieldValues: {
-      [key: string]: (string | number | boolean | Date | null)[];
+      [key: string]: PossibleFieldValues[];
     } = {};
     const confidenceScores: { [key: string]: number[] } = {};
     const sources: { [key: string]: string[] } = {};
@@ -223,6 +223,11 @@ export class MapAndReduceExtractor {
       extractedFieldsForChunks,
       fields
     );
+
+    const validExtraction = validateExtractedFields(mergedFields, fields);
+    if (!validExtraction) {
+      throw new Error('Invalid extraction');
+    }
 
     return mergedFields;
   }

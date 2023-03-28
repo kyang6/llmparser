@@ -22,7 +22,7 @@ Classify this document. Return a source that is the most relevant to the classif
 {{document}}
 ----
 
-Ok, heres the JSON:
+Ok, here is the JSON for ClassificationResult and nothing else:
 `);
 
 export const SIMPLE_CLASSIFICATION_PROMPT_CHAT = new ChatTemplate([
@@ -50,6 +50,6 @@ Here are the categories
 {{document}}
 ----
 
-Ok, heres the JSON:`,
+Ok, here is the JSON for ClassificationResult and nothing else:`,
   },
 ]);

@@ -1,5 +1,7 @@
+export type PossibleFieldValues = string | number | boolean | Date | null;
+
 export type FieldResult = {
-  value: string | number | boolean | Date | null;
+  value: PossibleFieldValues;
   source: string;
   confidence: number;
 };
