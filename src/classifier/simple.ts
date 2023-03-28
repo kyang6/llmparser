@@ -7,7 +7,10 @@ import {
   SIMPLE_CLASSIFICATION_PROMPT_CHAT,
 } from '../prompts';
 
-import { smartParseDirtyJSON } from '../utils/json-validator';
+import {
+  smartParseDirtyJSON,
+  validateClassificationJSON,
+} from '../utils/validators';
 
 import { DOCUMENT_CLASSIFICATION_LENGTH } from './hyperparameters';
 
@@ -52,6 +55,16 @@ export class SimpleClassifier {
     const classificationResult = smartParseDirtyJSON(
       classificationResultString
     );
+    const validClassification = validateClassificationJSON(
+      classificationResult,
+      categories
+    );
+    if (!validClassification) {
+      throw new Error(
+        'Invalid classification result. Please check your categories.'
+      );
+    }
+
     return classificationResult as ClassificationResult;
   }
 }

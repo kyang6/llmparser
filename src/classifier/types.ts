@@ -1,5 +1,5 @@
 export type ClassificationResult = {
-  type: string;
+  type: string | null;
   confidence: number;
   source: string;
 };
