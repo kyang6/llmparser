@@ -1,7 +1,7 @@
 import { LLMModel } from './llmmodel';
 
 import { OpenAIApi, Configuration } from 'openai';
-import { LLMModels } from './types';
+import { CONTEXT_SIZES, LLMModels } from './types';
 
 // Example implementation of the LLMModel interface for GPT-3
 export class Gpt3_5 implements LLMModel {
@@ -14,7 +14,7 @@ export class Gpt3_5 implements LLMModel {
   }
 
   getModelName(): string {
-    return 'GPT-3';
+    return LLMModels.GPT_3_5;
   }
 
   async call(prompt: string): Promise<string> {
@@ -22,6 +22,8 @@ export class Gpt3_5 implements LLMModel {
       const completion = await this.openai.createCompletion({
         model: LLMModels.GPT_3_5,
         prompt: prompt,
+        max_tokens: CONTEXT_SIZES[LLMModels.GPT_3_5],
+        temperature: 0,
       });
 
       return completion.data.choices[0].text as string;

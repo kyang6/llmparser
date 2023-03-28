@@ -1,4 +1,4 @@
-import { LLMModels, Message } from './types';
+import { CONTEXT_SIZES, LLMModels, Message } from './types';
 import { LLMModel } from './llmmodel';
 import { OpenAIApi, Configuration } from 'openai';
 
@@ -13,13 +13,15 @@ export class Gpt3_5Turbo implements LLMModel {
   }
 
   getModelName(): string {
-    return 'GPT-3.5 Turbo';
+    return LLMModels.GPT_3_5_Turbo;
   }
 
   async call(prompt: Message[]): Promise<string> {
     const completion = await this.openai.createChatCompletion({
       model: LLMModels.GPT_3_5_Turbo,
       messages: prompt,
+      max_tokens: CONTEXT_SIZES[LLMModels.GPT_3_5_Turbo],
+      temperature: 0,
     });
     return completion.data.choices[0].message?.content as string;
   }

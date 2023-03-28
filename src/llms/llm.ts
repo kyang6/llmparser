@@ -21,8 +21,8 @@ export class LLM extends LLMParams {
 
   constructor(params: LLMParams) {
     super(params.apiKey, params.modelName);
-    // Initialize the appropriate model based on the modelName parameter
 
+    // Initialize the appropriate model based on the modelName parameter
     switch (params.modelName) {
       case LLMModels.GPT_3_5_Turbo:
         this.model = new Gpt3_5Turbo(params.apiKey);
