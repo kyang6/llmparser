@@ -1,8 +1,12 @@
-import { LLM } from '../llms';
-import { LLMModels, LLMModelsType } from '../llms/types';
+import { LLM, LLMModels, LLMModelsType } from '../llms';
 import { Category, Field, ParseResult } from './types';
-import { Classifier } from '../classifier';
-import { ClassifierType } from '../classifier/classifier';
+import {
+  Classifier,
+  ClassifierType,
+  ClassificationResult,
+  validateClassificationJSON,
+} from '../classifier';
+import { ExtractorType, FieldExtractor } from '../field-extractor';
 
 interface LLMParserParams {
   categories?: Category[];
@@ -11,6 +15,7 @@ interface LLMParserParams {
   apiKey: string;
   model: LLMModels;
   classifier: Classifier;
+  extractor: FieldExtractor;
 }
 
 interface LLMParserOptions {
@@ -19,6 +24,12 @@ interface LLMParserOptions {
   apiKey: string;
   model?: LLMModelsType;
   classifierType?: ClassifierType;
+  extractorType?: ExtractorType;
+}
+
+interface ParseParams {
+  document: string;
+  forceClassifyAs?: string;
 }
 
 export class LLMParser implements LLMParserParams {
@@ -29,6 +40,8 @@ export class LLMParser implements LLMParserParams {
   apiKey: string;
   classifierType: ClassifierType = ClassifierType.Simple;
   classifier: Classifier;
+  extractorType: ExtractorType = ExtractorType.MapAndReduce;
+  extractor: FieldExtractor;
 
   constructor(options: LLMParserOptions) {
     if (!options.categories && !options.fields) {
@@ -49,23 +62,65 @@ export class LLMParser implements LLMParserParams {
       options.classifierType || this.classifierType,
       this.llm
     );
+    this.extractor = new FieldExtractor(
+      options.extractorType || this.extractorType,
+      this.llm
+    );
   }
 
-  async parse(document: string): Promise<ParseResult | undefined> {
-    // if this.categories is defined, then we need to classify the document first
-    // and then parse the document based on the classification result
+  async parse({
+    document,
+    forceClassifyAs,
+  }: ParseParams): Promise<ParseResult> {
     if (this.categories) {
-      const category = await this.classifier.classify(
-        document,
-        this.categories
-      );
-      return category;
-      // classify the document
-      // parse the document based on the classification result
-      // if category has no fields return category result directly
+      let classifiedCategory: ClassificationResult = {
+        type: null,
+        confidence: 0,
+        source: '',
+      };
+      if (forceClassifyAs) {
+        classifiedCategory = {
+          type: forceClassifyAs,
+          confidence: 1,
+          source: 'forceClassifyAs',
+        };
+        const validClassification = validateClassificationJSON(
+          classifiedCategory,
+          this.categories
+        );
+        if (!validClassification) {
+          throw new Error('Force classify type is not in categories.');
+        }
+      } else {
+        classifiedCategory = await this.classifier.classify(
+          document,
+          this.categories
+        );
+      }
+
+      // get fields from categories by matching classifiedCategory.name
+      const fields = this.categories.find(
+        category => category.name === classifiedCategory.type
+      )?.fields;
+
+      // if fields is undefined, return classifiedCategory
+      if (!fields) {
+        return classifiedCategory;
+      }
+
+      const extractedFields = await this.extractor.extract(document, fields);
+
+      return {
+        ...classifiedCategory,
+        fields: extractedFields,
+      };
     } else if (this.fields) {
-      // parse the document based on the fields
-      return;
+      const extractedFields = await this.extractor.extract(
+        document,
+        this.fields
+      );
+      return extractedFields;
     }
+    throw new Error('Either categories or Fields must be supplied.');
   }
 }

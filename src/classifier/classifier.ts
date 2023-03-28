@@ -1,12 +1,8 @@
 // classifier.ts
 import { LLM } from '../llms';
-import { Category } from '../parser/types';
+import { Category } from '../parser';
 import { SimpleClassifier } from './simple';
-import { ClassificationResult } from './types';
-
-export enum ClassifierType {
-  Simple = 'simple',
-}
+import { ClassificationResult, ClassifierType } from './types';
 
 export class Classifier {
   private classifier: SimpleClassifier;

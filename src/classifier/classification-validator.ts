@@ -1,5 +1,5 @@
-import { ClassificationResult } from '../../classifier/types';
-import { Category } from '../../parser/types';
+import { ClassificationResult } from './types';
+import { Category } from '../parser/types';
 
 export const validateClassificationJSON = (
   classificationResult: ClassificationResult,

@@ -3,3 +3,7 @@ export type ClassificationResult = {
   confidence: number;
   source: string;
 };
+
+export enum ClassifierType {
+  Simple = 'simple',
+}

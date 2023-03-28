@@ -1,8 +1,18 @@
+import { crudeTokenizer } from '../utils/tokenizer';
+
 export class Template {
   private template: string;
 
   constructor(template: string) {
     this.template = template;
+  }
+
+  public numChars(): number {
+    return this.template.length;
+  }
+
+  public numTokens(): number {
+    return crudeTokenizer(this.template);
   }
 
   // Replaces placeholders in the template with the provided values.

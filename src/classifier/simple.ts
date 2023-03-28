@@ -1,16 +1,14 @@
 import { LLM } from '../llms';
-import { LLMModels } from '../llms/types';
-import { Category } from '../parser/types';
+import { LLMModels } from '../llms';
+import { Category } from '../parser';
 import { ClassificationResult } from './types';
 import {
   SIMPLE_CLASSIFICATION_PROMPT,
   SIMPLE_CLASSIFICATION_PROMPT_CHAT,
 } from '../prompts';
 
-import {
-  smartParseDirtyJSON,
-  validateClassificationJSON,
-} from '../utils/validators';
+import { smartParseDirtyJSON } from '../utils/validators';
+import { validateClassificationJSON } from './classification-validator';
 
 import { DOCUMENT_CLASSIFICATION_LENGTH } from './hyperparameters';
 
@@ -60,9 +58,7 @@ export class SimpleClassifier {
       categories
     );
     if (!validClassification) {
-      throw new Error(
-        'Invalid classification result. Please check your categories.'
-      );
+      throw new Error('Error classifying document.');
     }
 
     return classificationResult as ClassificationResult;

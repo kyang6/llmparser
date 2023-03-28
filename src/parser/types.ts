@@ -1,9 +1,10 @@
 import { ClassificationResult } from '../classifier/types';
+import { FieldsResultObject } from '../field-extractor/types';
 
 export interface Field {
   name: string;
   description: string;
-  type: string;
+  type: 'string' | 'number' | 'boolean' | 'date';
 }
 
 export interface Category {
@@ -11,17 +12,6 @@ export interface Category {
   description: string;
   fields?: Field[];
 }
-
-export type FieldResult = {
-  value: string | number | boolean | Date | undefined | null | any;
-  source: string;
-  confidence: number;
-};
-
-// Define a type for the fields object, where each key is a string and each value is of type FieldResult
-export type FieldsResultObject = {
-  [key: string]: FieldResult;
-};
 
 export type ParseResult = Partial<ClassificationResult> & {
   fields?: FieldsResultObject;

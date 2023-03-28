@@ -1,10 +1,25 @@
 import { Message } from '../llms/types';
+import { crudeTokenizer } from '../utils/tokenizer';
 
 export class ChatTemplate {
   private template: Message[];
 
   constructor(template: Message[]) {
     this.template = template;
+  }
+
+  public numChars(): number {
+    return this.template.reduce(
+      (acc, message) => acc + message.content.length,
+      0
+    );
+  }
+
+  public numTokens(): number {
+    return this.template.reduce(
+      (acc, message) => acc + crudeTokenizer(message.content),
+      0
+    );
   }
 
   public render(replacements: Record<string, string>): Message[] {

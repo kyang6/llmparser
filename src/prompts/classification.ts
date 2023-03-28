@@ -17,7 +17,7 @@ Here are the categories
 {{stringCategories}}
 ----
 
-Classify this document. Return a source that is the most relevant to the classification. Source should be exact words from the following document. Do not make up words.
+Classify this document. Return a source that is the most relevant to the classification. Source should be exact words from the following document. Source should be maximum length of 500 characters. Do not make up words.
 ----
 {{document}}
 ----
@@ -45,7 +45,7 @@ Here are the categories
   },
   {
     role: 'user',
-    content: `Classify this document. Return a source that is the most relevant to the classification. Source should be exact words from the following document. Do not make up words.
+    content: `Classify this document. Return a source that is the most relevant to the classification. Source should be exact words from the following document. Source should be maximum length of 500 characters. Do not make up words.
 ----
 {{document}}
 ----
