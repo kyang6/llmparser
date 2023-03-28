@@ -1,5 +1,5 @@
-import { Template } from '../../../prompt-template/template';
-import { ChatTemplate } from '../../../prompt-template/chat_template';
+import { Template } from '../../../utils/prompt-template/template';
+import { ChatTemplate } from '../../../utils/prompt-template/chat_template';
 
 export const SIMPLE_CLASSIFICATION_PROMPT =
   new Template(`You are a JSON utility built to classify documents. You can only return JSON. JSON must match this typescript type

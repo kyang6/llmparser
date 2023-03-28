@@ -1,4 +1,4 @@
-import { Message } from '../llms/types';
+import { Message } from '../../llms/types';
 
 export abstract class AbstractTemplate {
   protected abstract template: string | Message[];

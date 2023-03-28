@@ -1,5 +1,5 @@
-import { Message } from '../llms/types';
-import { crudeTokenizer } from '../utils/tokenizer';
+import { Message } from '../../llms/types';
+import { crudeTokenizer } from '../tokenizer';
 import { AbstractTemplate } from './abstract-template';
 
 export class ChatTemplate extends AbstractTemplate {

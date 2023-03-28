@@ -7,12 +7,12 @@ import {
 } from '../../../utils/tokenizer';
 import { validateExtractedFields } from '../../extraction-validator';
 
-import { ChatTemplate, Template } from '../../../prompt-template';
+import { ChatTemplate, Template } from '../../../utils/prompt-template';
 
 import {
   CHUNK_BUFFER_IN_TOKENS,
   DOCUMENT_CHUNK_OVERLAP,
-} from '../../hyperparameters';
+} from './hyperparameters';
 import { smartParseDirtyJSON } from '../../../utils/validators';
 
 import { promiseAllRateLimited } from '../../../utils/rate-limit';

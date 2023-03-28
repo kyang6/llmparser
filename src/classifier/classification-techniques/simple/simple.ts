@@ -5,7 +5,7 @@ import { ClassificationResult } from '../../types';
 import { smartParseDirtyJSON } from '../../../utils/validators';
 import { validateClassificationJSON } from '../../classification-validator';
 
-import { DOCUMENT_CLASSIFICATION_LENGTH } from '../../hyperparameters';
+import { DOCUMENT_CLASSIFICATION_LENGTH } from './hyperparameters';
 import {
   SIMPLE_CLASSIFICATION_PROMPT,
   SIMPLE_CLASSIFICATION_PROMPT_CHAT,

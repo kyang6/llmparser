@@ -1,4 +1,4 @@
-import { crudeTokenizer } from '../utils/tokenizer';
+import { crudeTokenizer } from '../tokenizer';
 import { AbstractTemplate } from './abstract-template';
 
 export class Template extends AbstractTemplate {
