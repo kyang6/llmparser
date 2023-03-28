@@ -1,10 +1,12 @@
 import { Message } from '../llms/types';
 import { crudeTokenizer } from '../utils/tokenizer';
+import { AbstractTemplate } from './abstract-template';
 
-export class ChatTemplate {
-  private template: Message[];
+export class ChatTemplate extends AbstractTemplate {
+  protected template: Message[];
 
   constructor(template: Message[]) {
+    super();
     this.template = template;
   }
 
@@ -25,10 +27,7 @@ export class ChatTemplate {
   public render(replacements: Record<string, string>): Message[] {
     // go through every message and replace the placeholders
     const renderedTemplate = this.template.map(message => {
-      let content = message.content;
-      for (const [key, value] of Object.entries(replacements)) {
-        content = content.replace(`{{${key}}}`, value);
-      }
+      const content = this.replacePlaceholders(message.content, replacements);
       return {
         ...message,
         content,

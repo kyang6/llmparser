@@ -1,9 +1,9 @@
+import { SimpleClassifier } from './classification-techniques/simple/simple';
+
 export type ClassificationResult = {
   type: string | null;
   confidence: number;
   source: string;
 };
 
-export enum ClassifierType {
-  Simple = 'simple',
-}
+export type Classifier = SimpleClassifier;

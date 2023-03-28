@@ -1,2 +1,3 @@
-export { FieldExtractor } from './field-extractor';
-export { ExtractorType } from './types';
+export { FieldExtractorBase } from './field-extractor-base';
+export { Extractor } from './types';
+export { MapReduceExtractor } from './extraction-techniques/map-reduce/map-reduce';

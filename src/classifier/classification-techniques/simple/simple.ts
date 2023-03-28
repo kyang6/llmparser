@@ -1,22 +1,20 @@
-import { LLM } from '../llms';
-import { LLMModels } from '../llms';
-import { Category } from '../parser';
-import { ClassificationResult } from './types';
+import { LLM } from '../../../llms';
+import { Category } from '../../../parser';
+import { ClassificationResult } from '../../types';
+
+import { smartParseDirtyJSON } from '../../../utils/validators';
+import { validateClassificationJSON } from '../../classification-validator';
+
+import { DOCUMENT_CLASSIFICATION_LENGTH } from '../../hyperparameters';
 import {
   SIMPLE_CLASSIFICATION_PROMPT,
   SIMPLE_CLASSIFICATION_PROMPT_CHAT,
-} from '../prompts';
+} from './prompts';
+import { ClassifierBase } from '../../classifier-base';
 
-import { smartParseDirtyJSON } from '../utils/validators';
-import { validateClassificationJSON } from './classification-validator';
-
-import { DOCUMENT_CLASSIFICATION_LENGTH } from './hyperparameters';
-
-export class SimpleClassifier {
-  private llm: LLM;
-
+export class SimpleClassifier extends ClassifierBase {
   constructor(llm: LLM) {
-    this.llm = llm;
+    super(llm);
   }
 
   _processCategories(categories: Category[]): string {
@@ -36,7 +34,7 @@ export class SimpleClassifier {
     const stringCategories = this._processCategories(categories);
 
     let prompt;
-    if (this.llm.modelName === LLMModels.GPT_3_5_Turbo) {
+    if (this.llm.isChatModel()) {
       prompt = SIMPLE_CLASSIFICATION_PROMPT_CHAT.render({
         document: truncatedDocument,
         stringCategories,

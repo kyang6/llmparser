@@ -1,5 +1,5 @@
-import { Template } from './template';
-import { ChatTemplate } from './chat_template';
+import { Template } from '../../../prompt-template/template';
+import { ChatTemplate } from '../../../prompt-template/chat_template';
 
 export const SIMPLE_EXTRACTION_PROMPT =
   new Template(`You are a JSON utility built to extract structured information from documents. You can only return JSON. JSON must match the typescript type FieldsResultObject.

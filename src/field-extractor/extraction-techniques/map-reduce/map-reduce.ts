@@ -1,29 +1,31 @@
-import { LLM, LLMModels } from '../llms';
-import { Field } from '../parser';
-import { FieldsResultObject, PossibleFieldValues } from './types';
-import { crudeTokenizer, tokenLengthToCharLength } from '../utils/tokenizer';
-import { validateExtractedFields } from './extraction-validator';
-
+import { LLM } from '../../../llms';
+import { Field } from '../../../parser';
+import { FieldsResultObject, PossibleFieldValues } from '../../types';
 import {
-  SIMPLE_EXTRACTION_PROMPT,
-  SIMPLE_EXTRACTION_PROMPT_CHAT,
-  ChatTemplate,
-  Template,
-} from '../prompts';
+  crudeTokenizer,
+  tokenLengthToCharLength,
+} from '../../../utils/tokenizer';
+import { validateExtractedFields } from '../../extraction-validator';
+
+import { ChatTemplate, Template } from '../../../prompt-template';
 
 import {
   CHUNK_BUFFER_IN_TOKENS,
   DOCUMENT_CHUNK_OVERLAP,
-} from './hyperparameters';
-import { smartParseDirtyJSON } from '../utils/validators';
+} from '../../hyperparameters';
+import { smartParseDirtyJSON } from '../../../utils/validators';
 
-import { promiseAllRateLimited } from '../utils/rate-limit';
+import { promiseAllRateLimited } from '../../../utils/rate-limit';
+import { FieldExtractorBase } from '../../field-extractor-base';
 
-export class MapAndReduceExtractor {
-  private llm: LLM;
+import {
+  SIMPLE_EXTRACTION_PROMPT,
+  SIMPLE_EXTRACTION_PROMPT_CHAT,
+} from './prompts';
 
+export class MapReduceExtractor extends FieldExtractorBase {
   constructor(llm: LLM) {
-    this.llm = llm;
+    super(llm);
   }
 
   _chunkDocument(
@@ -31,7 +33,7 @@ export class MapAndReduceExtractor {
     chunkSize: number,
     chunkOverlap: number
   ): string[] {
-    const chunks = [];
+    const chunks: string[] = [];
     for (let i = 0; i < document.length; i += chunkSize - chunkOverlap) {
       chunks.push(document.slice(i, i + chunkSize));
     }
@@ -152,7 +154,7 @@ export class MapAndReduceExtractor {
 
       if (values.length > 0) {
         let highestConfidence = -Infinity;
-        let valueWithHighestConfidence = null;
+        let valueWithHighestConfidence: PossibleFieldValues = null;
 
         for (let i = 0; i < values.length; i++) {
           const currentValue = values[i];
@@ -188,9 +190,11 @@ export class MapAndReduceExtractor {
   ): Promise<FieldsResultObject> {
     const stringFields = this._processFields(fields);
 
-    let promptTemplate: Template | ChatTemplate = SIMPLE_EXTRACTION_PROMPT;
-    if (this.llm.modelName === LLMModels.GPT_3_5_Turbo) {
+    let promptTemplate: Template | ChatTemplate;
+    if (this.llm.isChatModel()) {
       promptTemplate = SIMPLE_EXTRACTION_PROMPT_CHAT;
+    } else {
+      promptTemplate = SIMPLE_EXTRACTION_PROMPT;
     }
 
     const chunkLength = this._calculateChunkLength(

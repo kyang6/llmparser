@@ -1,37 +1,25 @@
-import { LLMModel } from './llmmodel';
-import { Gpt3_5Turbo } from './gpt3_5turbo';
-import { Gpt3_5 } from './gpt3_5';
-import { Gpt4 } from './gpt4';
-import { LLMModels, CONTEXT_SIZES, Message } from './types';
+import { BaseLLM } from './models/basellm';
+import { Gpt3_5Turbo, Gpt3_5, Gpt4 } from './models';
+import { LLMModels, CONTEXT_SIZES, Message, LLMModelsType } from './types';
 
-// Define a class for LLM parameters
-export class LLMParams {
-  apiKey: string;
-  modelName: string;
+// Define the LLM class
+export class LLM {
+  private readonly modelName: LLMModelsType;
+  private readonly model: BaseLLM;
 
-  constructor(apiKey: string, modelName: string) {
-    this.apiKey = apiKey;
+  constructor(apiKey: string, modelName: LLMModelsType) {
     this.modelName = modelName;
-  }
-}
-
-// Define the LLM class that extends LLMParams
-export class LLM extends LLMParams {
-  private model: LLMModel;
-
-  constructor(params: LLMParams) {
-    super(params.apiKey, params.modelName);
 
     // Initialize the appropriate model based on the modelName parameter
-    switch (params.modelName) {
+    switch (modelName) {
       case LLMModels.GPT_3_5_Turbo:
-        this.model = new Gpt3_5Turbo(params.apiKey);
+        this.model = new Gpt3_5Turbo(apiKey);
         break;
       case LLMModels.GPT_3_5:
-        this.model = new Gpt3_5(params.apiKey);
+        this.model = new Gpt3_5(apiKey);
         break;
       case LLMModels.GPT_4:
-        this.model = new Gpt4(params.apiKey);
+        this.model = new Gpt4(apiKey);
         break;
       default:
         throw new Error('Invalid model name');
@@ -39,12 +27,17 @@ export class LLM extends LLMParams {
   }
 
   // Method to generate text using the selected model
-  async call(prompt: string | Message[]): Promise<string> {
+  public async call(prompt: string | Message[]): Promise<string> {
     return this.model.call(prompt);
   }
 
   // Method to get the context size of the selected model
-  getContextSize(): number {
-    return CONTEXT_SIZES[this.modelName as LLMModels];
+  public getContextSize(): number {
+    return CONTEXT_SIZES[this.modelName];
+  }
+
+  // Method to check if the model is a chat model
+  public isChatModel(): boolean {
+    return this.modelName === LLMModels.GPT_3_5_Turbo;
   }
 }

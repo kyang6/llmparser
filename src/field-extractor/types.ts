@@ -1,3 +1,5 @@
+import { MapReduceExtractor } from './extraction-techniques/map-reduce/map-reduce';
+
 export type PossibleFieldValues = string | number | boolean | Date | null;
 
 export type FieldResult = {
@@ -11,6 +13,4 @@ export type FieldsResultObject = {
   [key: string]: FieldResult;
 };
 
-export enum ExtractorType {
-  MapAndReduce = 'map-and-reduce',
-}
+export type Extractor = MapReduceExtractor;
