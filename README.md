@@ -1,14 +1,10 @@
-# llmparser
+# 🏷 LLMParser
+
+LLMParser is a simple and flexible tool to classify and extract structured information from text.
 
 [![npm package][npm-img]][npm-url]
 [![Build Status][build-img]][build-url]
-[![Downloads][downloads-img]][downloads-url]
 [![Issues][issues-img]][issues-url]
-[![Code Coverage][codecov-img]][codecov-url]
-[![Commitizen Friendly][commitizen-img]][commitizen-url]
-[![Semantic Release][semantic-release-img]][semantic-release-url]
-
-> Classify and extract structured data from anywhere
 
 ## Install
 
@@ -16,36 +12,36 @@
 npm install llmparser
 ```
 
-## Quick Usage
+## Usage
+
+Quick note: this library is meant for server-side usage, as using it in client-side browser code will expose your secret API key. Go [here](https://platform.openai.com/docs/api-reference/authentication) to get an OpenAI API key.
 
 ```ts
-import { LLMParser, PDFLoader } from llmparser;
+import { LLMParser } from llmparser;
 
 const categories = [
   {
     name: "MSA",
-    description: "Legal MSA document", // instruction for LLM
-    fields: [
-      {
-        name: "counterparty",
-        description: "counterparty of the MSA agreement",
-        type: "string"
-      }
-    ]
+    description: "Master service agreement", // instruction for LLM
   },
   {
     name: "NDA",
     description: "Non disclosure agreement",
     fields: [
       {
-        name: "counterparty",
-        description: "who we are signing the NDA with",
+        name: "effective_date",
+        description: "effective date or start date",
         type: "string"
       },
       {
-        name: "mutual",
-        description: "is this a mutual NDA",
-        type: "boolean"
+        name: "company",
+        description: "name of the company",
+        type: "string"
+      },
+      {
+        name: "counterparty",
+        description: "name of the counterparty",
+        type: "string"
       }
     ]
   }
@@ -53,56 +49,38 @@ const categories = [
 
 const parser = new LLMParser({
   categories,
-  apiKey: process.env.OPENAI_API_KEY,
-  model: "gpt-3.5-turbo", // or gpt-4
-})
-
-/* if you don't want to categorize and only extract fields
-const parser = new LLMParser({
-  fields,
   apiKey: process.env.OPENAI_API_KEY
 })
-*/
 
-
-const loader = new PDFLoader(); // instantiate class because it can inherit
-const document = await loader.load("src/examples/nda.pdf"); // or blob
-
-// document is just a plain text blob
-const results = await parser.parse(document);
-// if document > context length than we split into chunks and iterate
-
-console.log(results);
+const nda = // load NDA from PDF
+const results = await parser.parse(nda);
 {
-  type: "NDA",
-  confidence: 0.90,
-  source: "Non disclosure agreement",
-  fields: {
-    counterparty: {
-      value: "Series Financial",
-      source: "... Series Financial ...",
-      confidence: 0.92
-    },
-    mutual: {
-      value: true,
-      source: "Mutual NDA",
-      confidence: 0.84
-    }
+  "type": "NDA",
+  "confidence": 1,
+  "source": "This is a Mutual Non-Disclosure Agreement (this “Agreement”), effective as of the date stated below (the “Effective Date”), between Technology Research Corporation, a Florida corporation (the “Company”), and Kevin Yang (the “Counterparty”).",
+  "fields": {
+      "effective_date": {
+          "value": "2022-01-11T06:00:00.000Z",
+          "source": "Effective date of January 11, 2022",
+          "confidence": 1
+      },
+      "company": {
+          "value": "Technology Research Corporation",
+          "source": "between Technology Research Corporation, a Florida corporation",
+          "confidence": 0.9
+      },
+      "counterparty": {
+          "value": "Kevin Yang",
+          "source": "and Kevin Yang (the “Counterparty”)",
+          "confidence": 0.9
+      }
   }
 }
 ```
 
-[build-img]:https://github.com/ryansonshine/typescript-npm-package-template/actions/workflows/release.yml/badge.svg
-[build-url]:https://github.com/ryansonshine/typescript-npm-package-template/actions/workflows/release.yml
-[downloads-img]:https://img.shields.io/npm/dt/typescript-npm-package-template
-[downloads-url]:https://www.npmtrends.com/typescript-npm-package-template
-[npm-img]:https://img.shields.io/npm/v/typescript-npm-package-template
-[npm-url]:https://www.npmjs.com/package/typescript-npm-package-template
-[issues-img]:https://img.shields.io/github/issues/ryansonshine/typescript-npm-package-template
-[issues-url]:https://github.com/ryansonshine/typescript-npm-package-template/issues
-[codecov-img]:https://codecov.io/gh/ryansonshine/typescript-npm-package-template/branch/main/graph/badge.svg
-[codecov-url]:https://codecov.io/gh/ryansonshine/typescript-npm-package-template
-[semantic-release-img]:https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
-[semantic-release-url]:https://github.com/semantic-release/semantic-release
-[commitizen-img]:https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
-[commitizen-url]:http://commitizen.github.io/cz-cli/
+[build-img]:https://github.com/kyang6/llmparser/actions/workflows/release.yml/badge.svg
+[build-url]:https://github.com/kyang6/llmparser/actions/workflows/release.yml
+[npm-img]:https://img.shields.io/npm/v/llmparser
+[npm-url]:https://www.npmjs.com/package/llmparser
+[issues-img]:https://img.shields.io/github/issues/ryansonshine/llmparser
+[issues-url]:https://github.com/kyang6/llmparser/issues
