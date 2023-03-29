@@ -3,13 +3,13 @@ on:
   push:
     branches:
       - main
+  workflow_call:
+    secrets:
+      NPM_TOKEN:
+        required: true
 
 jobs:
   release:
-   permissions:
-      contents: write
-      issues: write
-      pull-requests: write
     name: Release
     runs-on: ubuntu-latest
     steps:
