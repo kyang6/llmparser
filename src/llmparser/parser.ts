@@ -101,9 +101,12 @@ export class LLMParser {
         fields: extractedFields,
       };
     } else if (this.fields) {
-      const fields = await this.extractor.extract(document, this.fields);
+      const extractedFields = await this.extractor.extract(
+        document,
+        this.fields
+      );
       return {
-        fields,
+        fields: extractedFields,
       };
     }
     throw new Error('Either "categories" or "fields" must be supplied.');

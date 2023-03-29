@@ -59,8 +59,7 @@ describe('LLMParser', () => {
     });
   });
   describe('parsing', () => {
-    it('should successfully parse a document with only categories', async () => {
-      console.log(process.env.OPENAI_API_KEY);
+    it('should successfully categorize a document with only categories', async () => {
       const parser = new LLMParser({
         apiKey: process.env.OPENAI_API_KEY as string,
         categories: [
@@ -97,7 +96,7 @@ describe('LLMParser', () => {
       expect(result.fields?.name.value).toEqual('Kevin Yang');
     });
 
-    it('should successfully parse a document with both categories and fields', async () => {
+    it('should successfully categorize and parse a document with categories and fields', async () => {
       const parser = new LLMParser({
         apiKey: process.env.OPENAI_API_KEY as string,
         categories: [
