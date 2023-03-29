@@ -63,10 +63,7 @@ Classified as an NDA and extracted 3 fields.
 {
   "type": "NDA",
   "confidence": 1,
-  "source": "This is a Mutual Non-Disclosure Agreement (this “Agreement”), 
-  effective as of the date stated below (the “Effective Date”), between 
-  Technology Research Corporation, a Florida corporation (the “Company”), 
-  and Kevin Yang (the “Counterparty”).",
+  "source": "This is a Mutual Non-Disclosure Agreement (this “Agreement”), effective as of the date stated below (the “Effective Date”), between Technology Research Corporation, a Florida corporation (the “Company”), and Kevin Yang (the “Counterparty”).",
   "fields": {
     "effective_date": {
         "value": "2022-01-11T06:00:00.000Z",
