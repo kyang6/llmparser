@@ -2,6 +2,8 @@
 
 LLMParser is a simple and flexible tool to classify and extract structured information from text.
 
+📖 Full documentation available [here](https://llmparser.com/docs)
+
 [![npm package][npm-img]][npm-url]
 [![Build Status][build-img]][build-url]
 [![Issues][issues-img]][issues-url]
@@ -22,7 +24,7 @@ import { LLMParser } from llmparser;
 const categories = [
   {
     name: "MSA",
-    description: "Master service agreement", // instruction for LLM
+    description: "Master service agreement",
   },
   {
     name: "NDA",
@@ -30,7 +32,7 @@ const categories = [
     fields: [
       {
         name: "effective_date",
-        description: "effective date or start date",
+        description: "effective date or start date", // instruction for LLM
         type: "string"
       },
       {
@@ -52,28 +54,34 @@ const parser = new LLMParser({
   apiKey: process.env.OPENAI_API_KEY
 })
 
-const nda = // load NDA from PDF
-const results = await parser.parse(nda);
+const ndaText = await loadPDFAsText("src/nda.pdf") // get text of PDF
+const extraction = await parser.parse(ndaText);
+```
+
+Classified as an NDA and extracted 3 fields.
+
+```json
+// extraction
 {
   "type": "NDA",
   "confidence": 1,
   "source": "This is a Mutual Non-Disclosure Agreement (this “Agreement”), effective as of the date stated below (the “Effective Date”), between Technology Research Corporation, a Florida corporation (the “Company”), and Kevin Yang (the “Counterparty”).",
   "fields": {
-      "effective_date": {
-          "value": "2022-01-11T06:00:00.000Z",
-          "source": "Effective date of January 11, 2022",
-          "confidence": 1
-      },
-      "company": {
-          "value": "Technology Research Corporation",
-          "source": "between Technology Research Corporation, a Florida corporation",
-          "confidence": 0.9
-      },
-      "counterparty": {
-          "value": "Kevin Yang",
-          "source": "and Kevin Yang (the “Counterparty”)",
-          "confidence": 0.9
-      }
+    "effective_date": {
+        "value": "2022-01-11T06:00:00.000Z",
+        "source": "Effective date of January 11, 2022",
+        "confidence": 1
+    },
+    "company": {
+        "value": "Technology Research Corporation",
+        "source": "between Technology Research Corporation, a Florida corporation",
+        "confidence": 0.9
+    },
+    "counterparty": {
+        "value": "Kevin Yang",
+        "source": "and Kevin Yang (the “Counterparty”)",
+        "confidence": 0.9
+    }
   }
 }
 ```
@@ -82,5 +90,5 @@ const results = await parser.parse(nda);
 [build-url]:https://github.com/kyang6/llmparser/actions/workflows/release.yml
 [npm-img]:https://img.shields.io/npm/v/llmparser
 [npm-url]:https://www.npmjs.com/package/llmparser
-[issues-img]:https://img.shields.io/github/issues/ryansonshine/llmparser
+[issues-img]:https://img.shields.io/github/issues/llmparser
 [issues-url]:https://github.com/kyang6/llmparser/issues
