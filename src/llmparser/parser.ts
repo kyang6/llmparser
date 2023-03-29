@@ -27,7 +27,7 @@ export class LLMParser {
   private categories?: Category[];
   private fields?: Field[];
   private llm: LLM;
-  private model: LLMModels = LLMModels.GPT_3_5;
+  private model: LLMModels = LLMModels.GPT_3_5_Turbo;
   private classifier: Classifier;
   private extractor: Extractor;
 
@@ -35,6 +35,11 @@ export class LLMParser {
     if (!options.categories && !options.fields) {
       throw new Error(
         'Either "categories" or "fields" must be provided in the options.'
+      );
+    }
+    if (options.categories && options.fields) {
+      throw new Error(
+        'Only one of "categories" or "fields" can be provided in the options.'
       );
     }
     this.categories = options.categories;

@@ -119,6 +119,7 @@
   },
   "dependencies": {
     "dirty-json": "^0.9.2",
+    "dotenv": "^16.0.3",
     "openai": "^3.2.1"
   }
 }
