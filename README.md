@@ -1,12 +1,11 @@
 # 🏷 LLMParser
 
-LLMParser is a simple and flexible tool to classify and extract structured information from text.
+LLMParser is a simple and flexible tool to classify and extract structured data from text with large language models.
 
 📖 Full documentation available [here](https://llmparser.com/docs)
 
 [![npm package][npm-img]][npm-url]
 [![Build Status][build-img]][build-url]
-[![Issues][issues-img]][issues-url]
 
 ## Install
 
@@ -61,11 +60,13 @@ const extraction = await parser.parse(ndaText);
 Classified as an NDA and extracted 3 fields.
 
 ```json
-// extraction
 {
   "type": "NDA",
   "confidence": 1,
-  "source": "This is a Mutual Non-Disclosure Agreement (this “Agreement”), effective as of the date stated below (the “Effective Date”), between Technology Research Corporation, a Florida corporation (the “Company”), and Kevin Yang (the “Counterparty”).",
+  "source": "This is a Mutual Non-Disclosure Agreement (this “Agreement”), 
+  effective as of the date stated below (the “Effective Date”), between 
+  Technology Research Corporation, a Florida corporation (the “Company”), 
+  and Kevin Yang (the “Counterparty”).",
   "fields": {
     "effective_date": {
         "value": "2022-01-11T06:00:00.000Z",
@@ -90,5 +91,3 @@ Classified as an NDA and extracted 3 fields.
 [build-url]:https://github.com/kyang6/llmparser/actions/workflows/release.yml
 [npm-img]:https://img.shields.io/npm/v/llmparser
 [npm-url]:https://www.npmjs.com/package/llmparser
-[issues-img]:https://img.shields.io/github/issues/llmparser
-[issues-url]:https://github.com/kyang6/llmparser/issues
