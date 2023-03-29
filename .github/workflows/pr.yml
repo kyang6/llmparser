@@ -1,9 +1,22 @@
-# Reusable workflow for PRs; to eject, you can replace this file with
-# https://github.com/ryansonshine/ryansonshine/blob/main/.github/workflows/pr.yml
 name: Pull Request
 
-on: [pull_request]
+on:
+  workflow_call:
 
 jobs:
   build:
-    uses: ryansonshine/ryansonshine/.github/workflows/pr.yml@main
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test

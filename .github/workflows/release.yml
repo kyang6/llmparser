@@ -1,16 +1,33 @@
-# Reusable workflow for releases; to eject, you can replace this file with
-# https://github.com/ryansonshine/ryansonshine/blob/main/.github/workflows/release.yml
 name: Release
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
+    secrets:
+      NPM_TOKEN:
+        required: true
+
 jobs:
   release:
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-    uses: ryansonshine/ryansonshine/.github/workflows/release.yml@main
-    secrets:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Test
+        run: npm test
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
