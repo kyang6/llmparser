@@ -1,5 +1,11 @@
-import { LLM, LLMModels, LLMModelsType } from '../llms';
-import { Category, Field, ParseResult } from './types';
+import { LLM, LLMModels } from '../llms';
+import {
+  Category,
+  Field,
+  LLMParserOptions,
+  ParseParams,
+  ParseResult,
+} from './types';
 import {
   ClassificationResult,
   validateClassificationJSON,
@@ -7,18 +13,6 @@ import {
   Classifier,
 } from '../classifier';
 import { Extractor, MapReduceExtractor } from '../field_extractor';
-
-interface LLMParserOptions {
-  apiKey: string;
-  categories?: Category[];
-  fields?: Field[];
-  model?: LLMModelsType;
-}
-
-interface ParseParams {
-  document: string;
-  forceClassifyAs?: string;
-}
 
 /*
  * This is the main class for LLMParser.

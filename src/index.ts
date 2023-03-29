@@ -1,1 +1,1 @@
-export { LLMParser } from './llmparser';
+export { LLMParser, Category, Field, ParseResult } from './llmparser';

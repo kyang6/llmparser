@@ -1,2 +1,8 @@
 export { LLMParser } from './parser';
-export { Field, Category } from './types';
+export {
+  Field,
+  Category,
+  LLMParserOptions,
+  ParseParams,
+  ParseResult,
+} from './types';

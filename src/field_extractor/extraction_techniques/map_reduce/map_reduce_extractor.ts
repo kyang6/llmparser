@@ -119,21 +119,23 @@ export class MapReduceExtractor extends FieldExtractorBase {
         if (extractedField) {
           // If a value was extracted for the current field in the current chunk, try to convert it to the correct type.
           let value: any = extractedField.value;
-          try {
-            switch (field.type) {
-              case 'number':
-                value = Number(value);
-                break;
-              case 'boolean':
-                value = Boolean(value);
-                break;
-              case 'date':
-                value = new Date(value);
-                break;
+          if (value !== null) {
+            try {
+              switch (field.type) {
+                case 'number':
+                  value = Number(value);
+                  break;
+                case 'boolean':
+                  value = Boolean(value);
+                  break;
+                case 'date':
+                  value = new Date(value);
+                  break;
+              }
+            } catch (err) {
+              // If the conversion fails, set the value to null.
+              value = null;
             }
-          } catch (err) {
-            // If the conversion fails, set the value to null.
-            value = null;
           }
 
           // Add the value, confidence score, and source to the arrays for the current field.
