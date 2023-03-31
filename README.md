@@ -2,10 +2,24 @@
 
 LLMParser is a simple and flexible tool to classify and extract structured data from text with large language models.
 
-📖 Full documentation available [here](https://llmparser.com/docs)
+📖 Full documentation available [here](https://llmparser.com)
 
 [![npm package][npm-img]][npm-url]
 [![Build Status][build-img]][build-url]
+
+## Why?
+
+While LLMs are extremely powerful at parsing text, producing reliable JSON output is challenging.
+
+LLMParser aims to solve this by enforcing a consistent JSON input and output format for classifying and extracting text with LLMs.
+
+## What can you do?
+
+LLMParser is a fairly general purpose tool. You can use it to extract job titles from LinkedIn profiles, dishes from restaurant menus, or even classify reviews as positive or negative. Here are some more examples:
+
+- Extracting name, school, current job title from resumes
+- Classifying corporate contracts as NDA, MSA, etc. and extracting important fields like effective date and counterparty name
+- Extracting place names from Apple Notes
 
 ## Install
 
