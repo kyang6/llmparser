@@ -1,4 +1,10 @@
 import { LLMParser } from '../src';
+import {
+  RESTAURANT_REVIEW,
+  REVIEW_CATEGORIES,
+  SIMPLE_RESTAURANT_REVIEW,
+  SIMPLE_REVIEW_CATEGORIES,
+} from './test_docs';
 
 describe('LLMParser', () => {
   describe('instantiation', () => {
@@ -99,23 +105,10 @@ describe('LLMParser', () => {
     it('should successfully categorize and parse a document with categories and fields', async () => {
       const parser = new LLMParser({
         apiKey: process.env.OPENAI_API_KEY as string,
-        categories: [
-          {
-            name: 'review',
-            description: 'restaurant review',
-            fields: [
-              {
-                name: 'restaurant_name',
-                description: 'name of the restaurant being reviewed',
-                type: 'string',
-              },
-            ],
-          },
-        ],
+        categories: SIMPLE_REVIEW_CATEGORIES,
       });
       const result = await parser.parse({
-        document:
-          'I loved eating at McDonalds. It is one of the best restaurants in the world.',
+        document: SIMPLE_RESTAURANT_REVIEW,
       });
       expect(result).toBeDefined();
       expect(result.type).toEqual('review');
@@ -123,5 +116,21 @@ describe('LLMParser', () => {
       expect(result.fields?.restaurant_name).toBeDefined();
       expect(result.fields?.restaurant_name.value).toEqual('McDonalds');
     });
+  });
+
+  describe('map-reduce-extractor', () => {
+    it('should successfully extract fields from a document', async () => {
+      const parser = new LLMParser({
+        apiKey: process.env.OPENAI_API_KEY as string,
+        categories: REVIEW_CATEGORIES,
+      });
+      const result = await parser.parse({
+        document: RESTAURANT_REVIEW,
+      });
+      expect(result).toBeDefined();
+      expect(result.fields).toBeDefined();
+      expect(result.fields?.restaurant).toBeDefined();
+      expect(result.fields?.restaurant.value).toEqual('State Bird Provisions');
+    }, 30000);
   });
 });

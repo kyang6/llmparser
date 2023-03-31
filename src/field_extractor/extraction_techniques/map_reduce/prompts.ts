@@ -20,7 +20,7 @@ Here are the fields you are extracting.
 {{stringFields}}
 ---- 
 
-Only extract the above fields. Do not extract any other fields from this document. Return a source that is the most relevant to the extraction. Source should be exact words from the following document. Source should be maximum length of 500 characters. Do not make up words.
+Only extract the above fields. Do not extract any other fields from this document. Return the most relevant text to the classification in the source field. Source should be exact words from the following document and less than 100 characters. Keep source short.
 ----
 {{document}}
 ----
@@ -52,7 +52,7 @@ Here are the fields you are extracting. Only extract these fields. Do not extrac
   },
   {
     role: 'user',
-    content: `Extract the fields from this document. Return a source that is the most relevant to the extraction. Source should be exact words from the following document. Source should be maximum length of 500 characters. Do not make up words.
+    content: `Extract the fields from this document. Return the most relevant text to the classification in the source field. Source should be exact words from the following document and less than 100 characters. Keep source short.
 ----
 {{document}}
 ----

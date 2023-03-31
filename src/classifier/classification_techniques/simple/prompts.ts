@@ -16,7 +16,7 @@ Here are the categories
 {{stringCategories}}
 ----
 
-Classify this document. Return the most relevant text to the classification in the source field. Source should be exact words from the following document and less than 200 characters. Keep source short.
+Classify this document. Return the most relevant text to the classification in the source field. Source should be exact words from the following document and less than 100 characters. Keep source short.
 ----
 {{document}}
 ----
@@ -44,7 +44,7 @@ Here are the categories
   },
   {
     role: 'user',
-    content: `Classify this document. Return the most relevant text to the classification in the source field. Source should be exact words from the following document and less than 200 characters. Keep source short.
+    content: `Classify this document. Return the most relevant text to the classification in the source field. Source should be exact words from the following document and less than 100 characters. Keep source short.
 ----
 {{document}}
 ----
