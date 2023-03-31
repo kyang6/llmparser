@@ -75,7 +75,7 @@ export class MapReduceExtractor extends FieldExtractorBase {
 
       this.llm
         .call(prompt)
-        .then(result => {
+        .then((result: string) => {
           try {
             const extractedFieldsForChunk: FieldsResultObject =
               smartParseDirtyJSON(result);
@@ -84,7 +84,7 @@ export class MapReduceExtractor extends FieldExtractorBase {
             resolve({});
           }
         })
-        .catch(err => {
+        .catch((err: string) => {
           console.log(err);
           reject(err);
         });
