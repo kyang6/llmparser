@@ -1,4 +1,4 @@
-export { LLMParser } from './parser';
+export { LLMParser } from './LLMParser';
 export {
   Field,
   Category,

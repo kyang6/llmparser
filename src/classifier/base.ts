@@ -1,4 +1,4 @@
-import { Category } from '../llmparser';
+import { Category } from '../parser';
 import { ClassificationResult } from './types';
 import { LLM } from '../llms';
 
