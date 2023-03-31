@@ -1,5 +1,5 @@
 import { LLM } from '../../../llms';
-import { Category } from '../../../parser';
+import { Category } from '../../../llmparser';
 import { ClassificationResult } from '../../types';
 
 import { smartParseDirtyJSON } from '../../../utils/validators';

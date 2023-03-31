@@ -1,5 +1,5 @@
 import { LLM } from '../../../llms';
-import { Field } from '../../../parser';
+import { Field } from '../../../llmparser';
 import { FieldsResultObject, PossibleFieldValues } from '../../types';
 import {
   crudeTokenizer,
