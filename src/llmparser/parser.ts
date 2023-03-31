@@ -14,8 +14,13 @@ import {
 } from '../classifier';
 import { Extractor, MapReduceExtractor } from '../field_extractor';
 
-/*
- * This is the main class for LLMParser.
+/**
+ * The main LLMParser class. Make sure to intantiate with categories or fields and an OpenAI API key.
+ * @param {string} options.apiKey OpenAI API key
+ * @param {Category[]} options.categories Categories to parse
+ * @param {Field[]} options.fields Fields to parse
+ * @param {LLMModels} options.model Optional name of a LLM model to use
+ * @returns {LLMParser} A LLMParser instance
  */
 export class LLMParser {
   private categories?: Category[];
@@ -45,9 +50,9 @@ export class LLMParser {
   }
 
   /**
-   * Parses the input document and returns the classification and extraction results.
-   * @param {ParseParams} params - The parameters for the parse operation.
-   * @returns {Promise<ParseResult>} - The result of the parse operation.
+   * Classifies and extracts fields from an input document (text) based on the categories or fields provided in the constructor.
+   * @param {ParseParams} params The parameters for the parse operation
+   * @returns {Promise<ParseResult>} The result of the parse operation
    */
   async parse({
     document,
