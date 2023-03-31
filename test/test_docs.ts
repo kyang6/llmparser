@@ -1,4 +1,4 @@
-import { Category } from '../src';
+import { Category } from '../src/llmparser';
 
 export const RESTAURANT_REVIEW =
   "State Bird Provisions in San Francisco is a culinary delight! The restaurant's namesake dish, the State Bird with Provisions, was a standout—crispy fried quail with stewed onions and lemon-garlic sauce, cooked to perfection. The Hamachi Crudo with Yuzu and Jalapeño was a refreshing treat, with thinly sliced hamachi and a zesty yuzu vinaigrette. The Sweet Corn Pancakes with Mt. Tam Cheese were light, fluffy, and perfectly balanced with rich, creamy cheese. The dim sum-style service added excitement to the dining experience. Overall, State Bird Provisions is a must-visit for food lovers seeking innovative and delicious cuisine in a warm and welcoming atmosphere.";
