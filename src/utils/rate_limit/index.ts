@@ -1,1 +1,1 @@
-export { promiseAllRateLimited } from './ratelimit';
+export { promiseAllWithRateLimit } from './ratelimit';

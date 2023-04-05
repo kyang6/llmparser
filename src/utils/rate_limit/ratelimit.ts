@@ -1,31 +1,34 @@
-export async function promiseAllRateLimited<T>(
-  tasks: (() => Promise<T>)[],
-  rateLimit: number,
-  concurrency: number
+export async function promiseAllWithRateLimit<T>(
+  promiseFactories: Array<() => Promise<T>>,
+  limit = 10
 ): Promise<T[]> {
   const results: T[] = [];
-  const taskQueue = tasks.slice();
-  let activeTasks = 0;
+  let currentIndex = 0;
 
-  async function* taskGenerator() {
-    while (taskQueue.length > 0 || activeTasks > 0) {
-      if (taskQueue.length > 0 && activeTasks < concurrency) {
-        activeTasks++;
-        const task = taskQueue.shift();
-        if (task) {
-          yield task().finally(() => {
-            activeTasks--;
-          });
-        }
-      } else {
-        await new Promise(resolve => setTimeout(resolve, rateLimit));
-      }
+  // A helper function to execute the next promise in the queue.
+  const executeNext = async (): Promise<void> => {
+    if (currentIndex >= promiseFactories.length) {
+      return;
     }
+
+    const currentPromiseFactory = promiseFactories[currentIndex];
+    currentIndex++;
+
+    const result = await currentPromiseFactory();
+    results.push(result);
+
+    // Continue executing the next promise in the queue.
+    return executeNext();
+  };
+
+  // Start executing promises concurrently, up to the specified limit.
+  const concurrentExecutions = [];
+  for (let i = 0; i < Math.min(limit, promiseFactories.length); i++) {
+    concurrentExecutions.push(executeNext());
   }
 
-  for await (const result of taskGenerator()) {
-    results.push(result);
-  }
+  // Wait for all concurrent executions to complete.
+  await Promise.all(concurrentExecutions);
 
   return results;
 }

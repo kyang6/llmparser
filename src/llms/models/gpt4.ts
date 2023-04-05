@@ -2,6 +2,7 @@ import { BaseLLM } from './base';
 
 import { OpenAIApi, Configuration } from 'openai';
 import { CONTEXT_SIZES, LLMModels } from '../types';
+import { crudeTokenizer } from '../../utils/tokenizer';
 
 export class Gpt4 implements BaseLLM {
   private apiKey: string;
@@ -17,11 +18,13 @@ export class Gpt4 implements BaseLLM {
   }
 
   async call(prompt: string): Promise<string> {
+    const maxTokens = CONTEXT_SIZES[LLMModels.GPT_4] - crudeTokenizer(prompt);
+
     try {
       const completion = await this.openai.createCompletion({
         model: LLMModels.GPT_4,
         prompt: prompt,
-        max_tokens: CONTEXT_SIZES[LLMModels.GPT_4],
+        max_tokens: maxTokens,
         temperature: 0,
       });
 

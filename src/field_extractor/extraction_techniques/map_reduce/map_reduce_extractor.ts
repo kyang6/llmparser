@@ -9,13 +9,10 @@ import { validateExtractedFields } from '../../extraction_validator';
 
 import { ChatTemplate, TextTemplate } from '../../../utils/prompt_templates';
 
-import {
-  CHUNK_BUFFER_IN_TOKENS,
-  DOCUMENT_CHUNK_OVERLAP,
-} from './hyperparameters';
+import { DOCUMENT_CHUNK_OVERLAP } from './hyperparameters';
 import { smartParseDirtyJSON } from '../../../utils/validators';
 
-import { promiseAllRateLimited } from '../../../utils/rate_limit';
+import { promiseAllWithRateLimit } from '../../../utils/rate_limit';
 import { FieldExtractorBase } from '../../base';
 
 import {
@@ -55,10 +52,9 @@ export class MapReduceExtractor extends FieldExtractorBase {
     promptLengthInTokens: number
   ): number {
     return tokenLengthToCharLength(
-      this.llm.getContextSize() -
+      this.llm.getContextSize() / 2 -
         crudeTokenizer(stringFields) -
-        promptLengthInTokens -
-        CHUNK_BUFFER_IN_TOKENS
+        promptLengthInTokens
     );
   }
 
@@ -216,13 +212,12 @@ export class MapReduceExtractor extends FieldExtractorBase {
       DOCUMENT_CHUNK_OVERLAP
     );
 
-    const extractedFieldsForChunks = await promiseAllRateLimited(
+    const extractedFieldsForChunks = await promiseAllWithRateLimit(
       docChunks.map(chunk => {
         return () =>
           this._extractFieldsForChunk(chunk, stringFields, promptTemplate);
       }),
-      100,
-      5
+      10
     );
 
     const mergedFields = this._mergeFieldsForChunks(

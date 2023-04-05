@@ -9,7 +9,7 @@ LLMParser is a simple and flexible tool to classify and extract structured data 
 
 ## Why?
 
-While LLMs are extremely powerful at parsing text, producing reliable JSON output is challenging.
+While LLMs are extremely powerful, producing reliable JSON output is challenging.
 
 LLMParser aims to solve this by enforcing a consistent JSON input and output format for classifying and extracting text with LLMs.
 
