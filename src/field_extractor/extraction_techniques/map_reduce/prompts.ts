@@ -15,7 +15,7 @@ type FieldsResultObject = {
 Only extract a value if you are very confident. There may not be a value for each field. If you cannot find a value for a field than in the fieldResult object for that field set the value to be null and confidence to be 0.
 Return a detailed confidence score between 0 and 1. 0.0 means not confident and 1.0 means very confident.
 
-Here are the fields you are extracting.
+Here are the fields you are extracting. The format is "name - (description): typescript type"
 ----
 {{stringFields}}
 ---- 

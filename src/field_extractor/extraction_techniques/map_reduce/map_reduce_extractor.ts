@@ -41,7 +41,7 @@ export class MapReduceExtractor extends FieldExtractorBase {
     // convert into a string that can be used as a prompt
     return fields
       .map(field => {
-        return `${field.name} (${field.description}): typescript type ${field.type}`;
+        return `${field.name} - (${field.description}): typescript type ${field.type}`;
       })
       .join('\n');
   }

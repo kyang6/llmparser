@@ -256,5 +256,25 @@ describe('LLMParser', () => {
       });
       expect(result).toBeDefined();
     }, 200000);
+
+    it('should successfully classify a large document', async () => {
+      const parser = new LLMParser({
+        apiKey: process.env.OPENAI_API_KEY as string,
+        categories: [
+          {
+            name: 'MSA',
+            description: 'Master Service Agreement',
+          },
+          {
+            name: 'NDA',
+            description: 'Non disclosure agreement',
+          },
+        ],
+      });
+      const result = await parser.parse({
+        document: LARGE_TEXT,
+      });
+      expect(result).toBeDefined();
+    }, 200000);
   });
 });

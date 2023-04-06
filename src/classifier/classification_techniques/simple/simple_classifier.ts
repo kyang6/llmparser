@@ -21,7 +21,7 @@ export class SimpleClassifier extends ClassifierBase {
     // remove fields from categories
     return categories
       .map((category: Category) => {
-        return category.name + ' (' + category.description + ')';
+        return category.name + ' - (' + category.description + ')';
       })
       .join('/n');
   }
@@ -54,6 +54,7 @@ export class SimpleClassifier extends ClassifierBase {
     } catch (e) {
       throw new Error('Error parsing document classification.');
     }
+
     const validClassification = validateClassificationJSON(
       classificationResult,
       categories
