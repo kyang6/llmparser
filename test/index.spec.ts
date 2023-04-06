@@ -52,44 +52,14 @@ const SIMPLE_REVIEW_CATEGORIES: Category[] = [
 
 const MSA_FIELDS: Field[] = [
   {
-    name: 'name',
-    type: 'string',
-    description: 'Name of the document',
-  },
-  {
     name: 'vendor_name',
     type: 'string',
     description: 'Name of the vendor referred to in this document',
   },
   {
-    name: 'category',
-    type: 'string',
-    description: 'Engineering, Administrative, or Operations',
-  },
-  {
-    name: 'service_provided',
-    type: 'string',
-    description: 'Service provided by the document',
-  },
-  {
-    name: 'contract_price',
-    type: 'number',
-    description: 'Contract price of the document',
-  },
-  {
-    name: 'date_signed',
+    name: 'last_updated',
     type: 'date',
-    description: 'Date the document was signed',
-  },
-  {
-    name: 'renewal_date',
-    type: 'date',
-    description: 'Date the document will be renewed',
-  },
-  {
-    name: 'renewal_terms',
-    type: 'string',
-    description: 'Terms of the renewal',
+    description: 'Date the document was last updated',
   },
 ];
 
@@ -255,6 +225,14 @@ describe('LLMParser', () => {
         document: LARGE_TEXT,
       });
       expect(result).toBeDefined();
+      expect(result.fields).toBeDefined();
+      expect(result.fields?.last_updated).toBeDefined();
+      expect(result.fields?.last_updated.value).toBeDefined();
+      expect(result.fields?.last_updated.value?.toString()).toEqual(
+        new Date('2023-02-01T08:00:00.000Z').toString()
+      );
+      expect(result.fields?.vendor_name).toBeDefined();
+      expect(result.fields?.vendor_name.value).toEqual('SFDC');
     }, 200000);
 
     it('should successfully classify a large document', async () => {

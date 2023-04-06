@@ -37,7 +37,7 @@ type ClassificationResult = {
 Only pick a type if you are very confident. There may not be a type. If there is no type that is relevant than you should return the type null.
 Return a confidence of 0 if you are not confident. Return a confidence of 1 if you are very confident.
 
-Here are the categories
+Here are the categories. The format is "name - (description)"
 ----
 {{stringCategories}}
 `,
