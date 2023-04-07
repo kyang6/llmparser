@@ -6,6 +6,7 @@ export type FieldResult = {
   value: PossibleFieldValues;
   source: string;
   confidence: number;
+  type: PossibleFieldValues;
 };
 
 // Define a type for the fields object, where each key is a string and each value is of type FieldResult

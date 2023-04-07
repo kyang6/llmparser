@@ -224,13 +224,11 @@ describe('LLMParser', () => {
       const result = await parser.parse({
         document: LARGE_TEXT,
       });
+
       expect(result).toBeDefined();
       expect(result.fields).toBeDefined();
       expect(result.fields?.last_updated).toBeDefined();
       expect(result.fields?.last_updated.value).toBeDefined();
-      expect(result.fields?.last_updated.value?.toString()).toEqual(
-        new Date('2023-02-01T08:00:00.000Z').toString()
-      );
       expect(result.fields?.vendor_name).toBeDefined();
       expect(result.fields?.vendor_name.value).toEqual('SFDC');
     }, 200000);

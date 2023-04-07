@@ -168,6 +168,7 @@ export class MapReduceExtractor extends FieldExtractorBase {
           value: valueWithHighestConfidence,
           source: source[0] || '',
           confidence: highestConfidence,
+          type: field.type,
         };
       } else {
         // If there are no values for the current field, set the result to null.
@@ -175,6 +176,7 @@ export class MapReduceExtractor extends FieldExtractorBase {
           value: null,
           source: '',
           confidence: 0,
+          type: field.type,
         };
       }
     }
@@ -217,7 +219,7 @@ export class MapReduceExtractor extends FieldExtractorBase {
         return () =>
           this._extractFieldsForChunk(chunk, stringFields, promptTemplate);
       }),
-      10
+      5
     );
 
     const mergedFields = this._mergeFieldsForChunks(
