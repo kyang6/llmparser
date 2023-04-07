@@ -15,7 +15,9 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
-    'prettier/prettier': 'warn',
+    'prettier/prettier': ['warn', {
+      endOfLine: 'auto',
+    }],
     'node/no-missing-import': 'off',
     'node/no-empty-function': 'off',
     'node/no-unsupported-features/es-syntax': 'off',
